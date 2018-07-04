@@ -1,0 +1,8 @@
+{
+  "python.pythonPath":
+    "C:\\Users\\Stein\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe",
+  "editor.tabSize": 4,
+  "python.formatting.autopep8Args": ["--indent-size=4"],
+  "editor.autoIndent": false,
+  "python.formatting.provider": "yapf"
+}
