@@ -3,6 +3,7 @@ import Header from './components/Header/header'
 import styled from 'styled-components'
 import Container from 'react-bulma-components/lib/components/container'
 import Columns from 'react-bulma-components/lib/components/columns'
+import { Clock } from 'styled-icons/fa-solid'
 import './style.css'
 
 const PageWrapper = styled.div`
@@ -12,14 +13,29 @@ const PageWrapper = styled.div`
   background: #2d3142;
 `
 
+const Content = styled.div`
+  width: 100%;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: space-around;
+`
+
 const SiteContainer = styled.div`
+  position: relative;
   width: 500px;
   height: auto;
-  max-height: 100vh;
   background: #4f5d75;
-  padding: 5px;
+  padding: 10px;
+  margin-right: 10px;
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.1),
     0 6px 10px 5px rgba(0, 0, 0, 0.1), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+`
+
+const SiteContainerHeader = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `
 
 const Row = styled.div`
@@ -37,10 +53,37 @@ const Column = styled.div`
 const Link = styled.a`
   text-decoration: none;
   color: #fff;
+  &:hover {
+    color: #9ab87a;
+  }
 `
 
 const Title = styled.h1`
-  color: #bfc0c0;
+  color: #9ab87a;
+`
+
+const UpdatedTime = styled.h5`
+  position: absolute;
+  right: 5px;
+  top: 2px;
+  display: flex;
+  height: 5px;
+  flex-direction: row;
+  align-items: center;
+  font-size: 10px;
+  color: gray;
+  float: right;
+`
+
+const StyledClock = styled(Clock)`
+  height: 16px;
+  width: 16px;
+  margin-right: 5px;
+`
+
+const Loading = styled.h1`
+  color: #fff;
+  font-size: 2em;
 `
 
 class App extends Component {
@@ -49,6 +92,7 @@ class App extends Component {
 
     this.state = {
       loading: true,
+      craigListUpdatedTime: null,
       craigListOffersList: []
     }
   }
@@ -57,9 +101,17 @@ class App extends Component {
     this.loadAndCreateCraiglistOffersList()
   }
 
+  formatUpdatedTime(time) {
+    const formatedTime = String(time)
+      .split('T')
+      .join(' ')
+
+    return formatedTime
+  }
   loadAndCreateCraiglistOffersList() {
     const offersFile = require('./web-scraper/json-files/craiglist.json')
     const offersList = offersFile.list
+    const craigListUpdatedTime = this.formatUpdatedTime(offersFile.updated_time)
 
     const craigListOffersList = []
 
@@ -69,6 +121,7 @@ class App extends Component {
 
     this.setState({
       craigListOffersList,
+      craigListUpdatedTime,
       loading: false
     })
   }
@@ -77,7 +130,13 @@ class App extends Component {
     const craigListOffersList = this.state.craigListOffersList
     return (
       <SiteContainer>
-        <Title>Craiglist</Title>
+        <SiteContainerHeader>
+          <Title>Craiglist</Title>
+          <UpdatedTime>
+            <StyledClock />
+            {this.state.craigListUpdatedTime}
+          </UpdatedTime>
+        </SiteContainerHeader>
         <div>
           {craigListOffersList.map(offer => {
             return (
@@ -95,13 +154,22 @@ class App extends Component {
 
   render() {
     if (this.state.loading) {
-      return <div>Loading</div>
+      return (
+        <div>
+          <Header />
+          <PageWrapper>
+            <Loading>Loading...</Loading>
+          </PageWrapper>
+        </div>
+      )
     } else {
       return (
-        <PageWrapper>
+        <div>
           <Header />
-          {this.renderCraiglistOffers()}
-        </PageWrapper>
+          <PageWrapper>
+            <Content>{this.renderCraiglistOffers()}</Content>
+          </PageWrapper>
+        </div>
       )
     }
   }

@@ -1,4 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Oxygen:700');
+
 body,
 html {
+  margin: 0;
   background: #2d3142;
+  font-family: 'Oxygen';
 }

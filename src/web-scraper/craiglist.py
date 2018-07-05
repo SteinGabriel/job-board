@@ -18,7 +18,8 @@ def extract_job_offers(soup):
     items = items_set.find('rdf:seq')
     job_offers = []
     for item in items:
-        if len(str(item)) < 2: continue  # preventing empty lines (break lines)
+        if len(str(item)) < 2:
+            continue  # preventing empty lines (break lines)
         job_offers.append(item)
     return (job_offers)
 
@@ -56,7 +57,6 @@ def create_json_file(offers, updated_time):
         offer_title = extract_job_title(offer_post_content)
         json_file['list'].append({'title': offer_title, 'url': offer_post_url})
         print(offer_title + ' ' + offer_post_url)
-        time.sleep(1)
 
     return json_file
 
