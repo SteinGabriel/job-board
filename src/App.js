@@ -142,7 +142,9 @@ class App extends Component {
             return (
               <Row>
                 <Column>
-                  <Link href={offer.url}>{offer.title}</Link>
+                  <Link target="_blank" href={offer.url}>
+                    {offer.title}
+                  </Link>
                 </Column>
               </Row>
             )
