@@ -1,4 +1,4 @@
 #import files
-from craiglist import create_craiglist_report
+from craiglist import create_craiglist_offers_file
 
-create_craiglist_report()
+create_craiglist_offers_file()

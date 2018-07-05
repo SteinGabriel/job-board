@@ -19,3 +19,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# job offers file
+/src/web-scraper/json-files/*.json
